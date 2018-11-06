@@ -4,23 +4,21 @@ networks:
     name: book-test-network
 services:
     book-database:
-        image: "microsoft/mssql-server-linux"
-        container_name: book_database
+        image: "microsoft/mssql-server-linux:latest"
+        container_name: book-database
         environment:
-            SA_PASSWORD: "book123"
+            SA_PASSWORD: "Book#123"
             ACCEPT_EULA: Y
         ports:
-            - "1433:1433"
-        expose:
-            - "1433"
+            - "2433:1433"
         networks:
           - "book-test-network"
     book-api:
         image: book-api
         container_name: book-api-container
         build:
-           context: ./Book
-           dockerfile: Dockerfile
+          context: ./Book
+          dockerfile: Dockerfile
         ports:
         - "5000:5000"
         networks:
@@ -28,10 +26,6 @@ services:
         restart: on-failure
         depends_on:
           - book-database
-        volumes:
-          - ./DatabaseMigration/CreateBookDatabase.sql:/scripts/CreateBookDatabase.sql
         environment:
           - ASPNETCORE_ENVIRONMENT=Development
-        command:
-          - sqlcmd -i /scripts/CreateBookDatabase.sql
       
