@@ -28,6 +28,10 @@ services:
         restart: on-failure
         depends_on:
           - book-database
+        volumes:
+          - ./DatabaseMigration/CreateBookDatabase.sql:/scripts/CreateBookDatabase.sql
         environment:
           - ASPNETCORE_ENVIRONMENT=Development
+        command:
+          - sqlcmd -i /scripts/CreateBookDatabase.sql
       
