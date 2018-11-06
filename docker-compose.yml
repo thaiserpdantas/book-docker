@@ -6,11 +6,12 @@ services:
     book-database:
         image: "microsoft/mssql-server-linux:latest"
         container_name: book-database
+        hostname: book-database
         environment:
             SA_PASSWORD: "Book#123"
             ACCEPT_EULA: Y
         ports:
-            - "2433:1433"
+            - "1433:1433"
         networks:
           - "book-test-network"
     book-api:

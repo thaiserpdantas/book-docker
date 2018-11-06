@@ -1,4 +1,4 @@
-$Server = "localhost,2433";
+$Server = "localhost,1433";
 $User = "sa";
 $Password = "Book#123";
 $Timeout = 65534;
