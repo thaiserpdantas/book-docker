@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace Book.Controllers
 {
@@ -15,39 +16,55 @@ namespace Book.Controllers
 
         public BooksController(BookRepository bookRepository)
         {
+            this._bookRepository = bookRepository;
         }
 
-        // GET: api/Book
         [HttpGet]
         public List<Book> Get()
         {
-            return _bookRepository.BookItems.ToList();
+            return _bookRepository.Books.ToList();
         }
 
-        // GET: api/Book/5
         [HttpGet("{id}", Name = "Get")]
-        public string Get(int id)
+        public IActionResult Get(long? id)
         {
-            return "value";
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var book = _bookRepository.Books.Find(id);
+            if (book == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(book);
         }
 
-        // POST: api/Book
         [HttpPost]
         public void Post([FromBody] Book book)
         {
-
+            _bookRepository.Add(book);
+            _bookRepository.SaveChangesAsync();
         }
 
-        // PUT: api/Book/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
-        {
-        }
-
-        // DELETE: api/ApiWithActions/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public IActionResult Delete(long? id)
         {
+
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var book = _bookRepository.Books.FirstOrDefault(m => m.Id == id);
+            if (book == null)
+            {
+                return NotFound();
+            }
+
+            return NoContent();
         }
     }
 }

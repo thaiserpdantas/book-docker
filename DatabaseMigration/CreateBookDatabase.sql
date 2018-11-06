@@ -1,9 +1,17 @@
-Create Database TesteDb
+CREATE DATABASE [BookDatabase];
 GO
 
-Use TesteDb
+USE [BookDatabase];
 GO
 
-Create Table Teste (Id int identity primary key)
+CREATE TABLE [Books] (
+	[Id] bigint identity primary key not null,
+	[Name] nvarchar(max),
+	[Author] nvarchar(max),
+);
+GO
 
+INSERT INTO [Books] ([Name], [Author]) VALUES
+('Book 1', 'Author 1'),
+('Book 2', 'Author 2')
 GO
