@@ -7,7 +7,8 @@ namespace Book
         public BookRepository(DbContextOptions<BookRepository> options)
             : base(options)
         {
+
         }
-        public DbSet<Book> BookItems { get; set; }
+        public DbSet<Book> Books { get; set; }
     }
 }

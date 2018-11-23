@@ -26,9 +26,10 @@ namespace Book
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<BookRepository>(opt =>
-                opt.UseInMemoryDatabase("BookList"));
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+
+            var connection = Configuration.GetConnectionString("DefaultConnection");
+            services.AddDbContext<BookRepository>(options => options.UseSqlServer(connection));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -40,10 +41,10 @@ namespace Book
             }
             else
             {
-                app.UseHsts();
+                //app.UseHsts();
             }
 
-            app.UseHttpsRedirection();
+            //app.UseHttpsRedirection();
             app.UseMvc();
         }
     }
